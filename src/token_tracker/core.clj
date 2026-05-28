@@ -48,19 +48,19 @@
       (when-not (contains? #{"quit" "exit"} (.trim input))
         (if (.isBlank input)
           (recur messages)
-          (let [new-messages (conj messages {:role "user" :content input})]
-            (try
-              (let [response     (send-messages new-messages)
-                    reply        (extract-text response)
-                    usage        (:usage response)
-                    next-messages (conj new-messages {:role "assistant" :content reply})]
-                (println (str "\nClaude: " reply))
-                (print-usage usage)
-                (println)
-                (recur next-messages))
-              (catch Exception e
-                (println (str "\nError: " (or (ex-message e) (.getMessage e))))
-                (recur new-messages)))))))))
+          (let [new-messages (conj messages {:role "user" :content input})
+                next-messages (try
+                                (let [response      (send-messages new-messages)
+                                      reply         (extract-text response)
+                                      usage         (:usage response)]
+                                  (println (str "\nClaude: " reply))
+                                  (print-usage usage)
+                                  (println)
+                                  (conj new-messages {:role "assistant" :content reply}))
+                                (catch Exception e
+                                  (println (str "\nError: " (or (ex-message e) (.getMessage e))))
+                                  new-messages))]
+            (recur next-messages)))))))
 
 (defn -main [& _args]
   (chat-loop))
