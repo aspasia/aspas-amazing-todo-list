@@ -1,6 +1,8 @@
 {:paths ["src"]
- :deps {org.clojure/clojure {:mvn/version "1.12.0"}
+ :deps {org.clojure/clojure {:mvn/version "1.11.0"}
         clj-http/clj-http   {:mvn/version "3.12.3"}
         cheshire/cheshire   {:mvn/version "5.13.0"}}
+ :mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
+             "clojars" {:url "https://repo.clojars.org/"}}
  :aliases
  {:run {:main-opts ["-m" "token-tracker.core"]}}}

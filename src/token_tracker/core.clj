@@ -1,4 +1,5 @@
 (ns token-tracker.core
+  (:gen-class)
   (:require [clj-http.client :as http]
             [cheshire.core :as json]))
 
